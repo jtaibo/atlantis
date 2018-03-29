@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 # Code taken from 
 # https://github.com/szazo/DHT11_Python

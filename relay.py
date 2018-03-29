@@ -1,11 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 
 import RPi.GPIO as GPIO
 
 class RelayModule:
 
-    def __init__(self, relay_pins = [14, 15, 18, 23, 24, 25, 8, 7]):
+    def __init__(self, relay_pins):
         self.relay_pins = relay_pins
         GPIO.setmode(GPIO.BCM)  # Numbers GPIOs by Broadcom SOC channel (GPIO #, not pin #)
         GPIO.setup(self.relay_pins, GPIO.OUT, initial=GPIO.HIGH)

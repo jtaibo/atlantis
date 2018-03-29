@@ -1,0 +1,96 @@
+ <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atlantis home page</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="mimic.js"></script>
+  <script src="atlantis.js"></script>
+</head>
+
+<body onLoad="on_load()">
+
+<h1>Welcome to the Atlantis home page!</h1>
+
+<span id="connection">
+DISCONNECTED
+</span>
+
+<div id="sensors">
+  <h2>Sensor values</h2>
+  <table>
+    <tr>
+      <td>Air temp</td>
+      <td>20.00 C</td>
+      <td>Humidity</td>
+      <td>45%</td>
+      <td>Water temp</td>
+      <td>20.35</td>
+      <td>pH</td>
+      <td>7.1</td>
+    </tr>
+  </table>
+</div>
+
+<div id="lighting">
+  <h2>Lighting</h2>
+  <p>
+    LED strip #1
+    <input type="range" id="brightness" name="brightness" value="50">
+    <input class="color" type="color" name="color">
+  </p>
+</div>
+
+<div class="relays">
+  <h2>Relays</h2>
+  <ul class="relays">
+    <li><button class="relay" id="button_filter" onclick="button_filter()">FILTER</button></li>
+    <li><button class="relay" id="button_fluorescent" onclick="button_fluorescent()">FLUORESCENT</button></li>
+    <li><button class="relay" id="button_air" onclick="button_air()">AIR PUMP</button></li>
+  </ul>
+</div>
+
+<!-- REMOVE ME! -->
+<div>
+<button id="b_toggle_relay" name="toggle_relay" onclick="toggleRelay(2)">Toggle relay</button> 
+</div>
+
+<p id="console">
+Debug console
+</p>
+
+<p id="response">
+</p>
+
+<!--
+
+<p id="demo">
+Content of the document......
+</p>
+
+<div>
+<button id="the_button" onclick="myFunction()">Click me</button> 
+</div>
+
+<iframe name="contenedor" src="http://www.udc.es/"
+  style="width:640px;height:400px">
+</iframe>
+
+<form>
+  <input type="color" name="color">
+  <input type="range" id="r" name="r" value="20">
+</form>
+
+<p>
+<a href="http://www.udc.es/" target="contenedor">Link</a>
+</p>
+
+-->
+
+<footer>
+<a href="devel.html">Development</a>
+</footer>
+
+</body>
+</html> 

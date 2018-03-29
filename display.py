@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 
 import lcd_i2c
@@ -12,7 +12,7 @@ class Display:
         lcd_i2c.lcd_init()
 
     def printMessage(self, text, line=0):
-        print(text)
+#        print(text)
         lcd_i2c.lcd_string(text, line_addr[line])
 
     def clear(self):

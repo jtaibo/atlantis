@@ -1,10 +1,12 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 #
 
 import rotary
 import relay
 import display
 from globalconfig import GlobalConfig
+import os
+
 
 # States
 ST_OFF = 0
@@ -53,21 +55,44 @@ class BacklightMI(MenuItem):
     if GlobalConfig.keepDisplayBacklight:
       return "ON"
     else:
-      return "OFF"
+      return "Auto-OFF"
     
   def click(self):
     GlobalConfig.keepDisplayBacklight = not GlobalConfig.keepDisplayBacklight
 
+
+class StreamingMI(MenuItem):
+  def __init__(self, name):
+    MenuItem.__init__(self, name)
+    self.streaming = False
+
+  def getDisplayStringL1(self):
+    if self.streaming:
+      return "enabled"
+    else:
+      return "disabled"
+  
+  def click(self):
+    if self.streaming:
+      # to-do
+      pass
+    else:
+      os.system("~/stream_camera.sh")
+      self.streaming = True
+      #to-do
+    
 
 class Menu:
 
     def __init__(self, rot, dpy, relays):
 
         self.menuItems = [
-                            BacklightMI("Backlight"),
-                            RelayMI("Filtro", relays, 0),
-                            RelayMI("Bomba", relays, 1),
-                            RelayMI("Fluorescente", relays, 2)
+                            BacklightMI("Dpy Backlight"),
+                            RelayMI(    "Filter", relays, 0),
+                            RelayMI(    "Air pump", relays, 1),
+                            RelayMI(    "Fluorescent", relays, 2),
+                            RelayMI(    "Heater", relays, 3),
+                            StreamingMI("Video Streaming")
                             ]
         self.rot = rot
         self.dpy = dpy

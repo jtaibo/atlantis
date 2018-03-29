@@ -1,7 +1,9 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
 import RPi.GPIO as GPIO
+
+from globalconfig import GlobalConfig
 
 import relay
 import rotary
@@ -9,19 +11,25 @@ import display
 import menu
 import dht11mt
 import ds18b20
+import leds
+from xmlrpc_server import XMLRPC_Server
+
 
 import time
 
-#dht11 = dht11.DHT11(pin = 4)
-dht11 = dht11mt.DHT11_MT(21)
+leds = leds.RGBLEDStrip(GlobalConfig.leds_r, GlobalConfig.leds_g, GlobalConfig.leds_b)
+leds.off()
 
-water_temp = ds18b20.DS18b20('28-041701b47aff')
+dht11 = dht11mt.DHT11_MT( GlobalConfig.DHT11_data_pin )
+water_temp = ds18b20.DS18b20( GlobalConfig.water_temp_sensor_id )
 
 dpy = display.Display()
 dpy.printMessage("Initializing...", 0)
 
-relays = relay.RelayModule()
+relays = relay.RelayModule( GlobalConfig.relay_pins )
 dpy.printMessage("Relay module with " + str(relays.size()) + " relay(s)")
+
+xmlrpc_server = XMLRPC_Server(relays)
 
 rot = rotary.RotaryEncoder()
 
@@ -75,7 +83,9 @@ finally:
     dpy.setBacklight(0)
     water_temp.stop()
     dht11.stop()
+    xmlrpc_server.stop()
     water_temp.join()
     dht11.join()
+    xmlrpc_server.join()
     # GPIO cleanup (just in case...)
     GPIO.cleanup()
