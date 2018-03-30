@@ -23,4 +23,5 @@ class RelayModule:
         return len(self.relay_pins)
 
     def getState(self, ch):
-        return GPIO.input(self.relay_pins[ch])
+        # NOTE: Logic value is inverted
+        return 1-GPIO.input(self.relay_pins[ch])

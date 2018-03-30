@@ -45,13 +45,34 @@ class XMLRPC_Server(threading.Thread):
     self.server.set_server_name("Atlantis RPCXML server")
     self.server.set_server_documentation("Atlantis RPCXML server documentation")
     self.server.register_introspection_functions()
+    self.server.register_function(self.get_status)
     self.server.register_function(self.toggle_relay, "toggle_relay")
     self.server.serve_forever()
 
   # XMLRPC methods
 
   def get_status(self):
-    pass
+    status = { "sensors": {
+                  "airtemp": 20.0,
+                  "humidity": 41,
+                  "watertemp": 20.59,
+                  "pH": 7.1
+                 },
+               "leds": [
+                   {
+                    "mode":"static",
+                    "r": 1.0,
+                    "g": 1.0,
+                    "b": 1.0
+                   }
+                 ],
+               "relays": [
+               ]
+             }
+    # Insert relay status
+    for i in range(self.relays.size()):
+      status["relays"].append(self.relays.getState(i))
+    return status
 
   def set_filter(self):
     pass

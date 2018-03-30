@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Atlantis home page</title>
   <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <script src="mimic.js"></script>
   <script src="atlantis.js"></script>
 </head>
@@ -22,13 +24,13 @@ DISCONNECTED
   <table>
     <tr>
       <td>Air temp</td>
-      <td>20.00 C</td>
+      <td id="airtemp">20.00 C</td>
       <td>Humidity</td>
-      <td>45%</td>
+      <td id="humidity">45%</td>
       <td>Water temp</td>
-      <td>20.35</td>
+      <td id="watertemp">20.35</td>
       <td>pH</td>
-      <td>7.1</td>
+      <td id="ph">7.1</td>
     </tr>
   </table>
 </div>
@@ -45,9 +47,9 @@ DISCONNECTED
 <div class="relays">
   <h2>Relays</h2>
   <ul class="relays">
-    <li><button class="relay" id="button_filter" onclick="button_filter()">FILTER</button></li>
-    <li><button class="relay" id="button_fluorescent" onclick="button_fluorescent()">FLUORESCENT</button></li>
-    <li><button class="relay" id="button_air" onclick="button_air()">AIR PUMP</button></li>
+    <li><button class="relay" id="button_filter" onclick="toggle_filter()">FILTER</button></li>
+    <li><button class="relay" id="button_fluorescent" onclick="toggle_fluorescent()">FLUORESCENT</button></li>
+    <li><button class="relay" id="button_airpump" onclick="toggle_airpump()">AIR PUMP</button></li>
   </ul>
 </div>
 

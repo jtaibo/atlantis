@@ -37,11 +37,10 @@ class RelayMI(MenuItem):
     self.idx = idx
 
   def getDisplayStringL1(self):
-    # Inverted because relays are enabled when GPIO is low
     if ( self.relays.getState(self.idx) ):
-      return "OFF"
-    else:
       return "ON"
+    else:
+      return "OFF"
 
   def click(self):
     self.relays.toggle(self.idx)
