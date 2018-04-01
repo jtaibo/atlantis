@@ -23,6 +23,13 @@ class GlobalConfig:
 #  relay_pins = [14, 15, 18, 23, 24, 25, 8, 7]
   relay_pins = [17, 27, 22, 5, 6, 13, 19, 26]
   
+  relay_devices = [
+                    ("filter", 0),
+                    ("airpump", 1),
+                    ("fluorescent", 2),
+                    ("heater", 3)
+                  ]
+
   # Rotary encoder
 #  rotary_clk_pin = 22
 #  rotary_dt_pin = 27

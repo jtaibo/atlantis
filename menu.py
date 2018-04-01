@@ -31,19 +31,19 @@ class MenuItem:
 
 
 class RelayMI(MenuItem):
-  def __init__(self, name, relays, idx):
+  def __init__(self, name, relays, id):
     MenuItem.__init__(self, name)
     self.relays = relays
-    self.idx = idx
+    self.id = id
 
   def getDisplayStringL1(self):
-    if ( self.relays.getState(self.idx) ):
+    if ( self.relays.getDeviceState(self.id) ):
       return "ON"
     else:
       return "OFF"
 
   def click(self):
-    self.relays.toggle(self.idx)
+    self.relays.toggleDevice(self.id)
 
 
 class BacklightMI(MenuItem):
@@ -87,10 +87,10 @@ class Menu:
 
         self.menuItems = [
                             BacklightMI("Dpy Backlight"),
-                            RelayMI(    "Filter", relays, 0),
-                            RelayMI(    "Air pump", relays, 1),
-                            RelayMI(    "Fluorescent", relays, 2),
-                            RelayMI(    "Heater", relays, 3),
+                            RelayMI(    "Filter", relays, "filter"),
+                            RelayMI(    "Air pump", relays, "airpump"),
+                            RelayMI(    "Fluorescent", relays, "fluorescent"),
+                            RelayMI(    "Heater", relays, "heater"),
                             StreamingMI("Video Streaming")
                             ]
         self.rot = rot

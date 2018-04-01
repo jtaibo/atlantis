@@ -28,6 +28,8 @@ dpy.printMessage("Initializing...", 0)
 
 relays = relay.RelayModule( GlobalConfig.relay_pins )
 dpy.printMessage("Relay module with " + str(relays.size()) + " relay(s)")
+for dev in GlobalConfig.relay_devices:
+  relays.registerDevice(dev[0], dev[1])
 
 xmlrpc_server = XMLRPC_Server(relays)
 
