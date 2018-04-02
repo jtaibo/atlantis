@@ -1,28 +1,26 @@
 var buttons = ["filter", "fluorescent", "airpump", "heater"];
+var refresh_period = 5000; // Refresh period in milliseconds
 
 $(document).ready(
   function() {
-
-    $("#console").html("on_load");
-
     // Button events' functions  
     for( i=0 ; i < buttons.length ; i++ ) {
-
       $("#relays").append("<li><button class=\"relay\" id=\"button_" + buttons[i] + "\">" + buttons[i].toUpperCase() + "</button></li>");
-
       var function_body = "toggle_device(\"" + buttons[i] + "\");";
       $("#button_" + buttons[i]).click( Function(function_body) );
     }
-
     query_status();
+    setTimeout(refresh, refresh_period);
   }
 );
 
+function refresh() {
+  query_status();
+  setTimeout(refresh, refresh_period);
+}
 
 function update_page_contents(status) {
-
-$("#console").html(" status: " + JSON.stringify(status));
-
+  $("#console").html(" status: " + JSON.stringify(status));
   if ( ! status ) {
     // Connection failure
     for( i=0 ; i < buttons.length ; i++ ) {
@@ -42,7 +40,6 @@ $("#console").html(" status: " + JSON.stringify(status));
 }
 
 function query_status() {
-
   try {
     $.xmlrpc({
       url: "http://atlantis:8000/AtlantisRPC",
@@ -76,11 +73,7 @@ function connection_error() {
   $("#connection").css("background-color", "red");
 }
 
-
 function toggle_device(id) {
-
-$("#console").html("toggle_device(" + id + ")");
-
   try {
     $.xmlrpc({
       url: "http://atlantis:8000/AtlantisRPC",
