@@ -46,7 +46,10 @@ class XMLRPC_Server(threading.Thread):
     self.server.set_server_documentation("Atlantis RPCXML server documentation")
     self.server.register_introspection_functions()
     self.server.register_function(self.get_status)
-    self.server.register_function(self.toggle_relay, "toggle_relay")
+    self.server.register_function(self.set_device)
+    self.server.register_function(self.turn_on_device)
+    self.server.register_function(self.turn_off_device)
+    self.server.register_function(self.toggle_device)
     self.server.serve_forever()
 
   # XMLRPC methods
@@ -66,38 +69,31 @@ class XMLRPC_Server(threading.Thread):
                     "b": 1.0
                    }
                  ],
-               "relays": [
-               ]
+               "relays": {}
              }
     # Insert relay status
-    for i in range(self.relays.size()):
-      status["relays"].append(self.relays.getState(i))
+    for r in self.relays.devices:
+      status["relays"][r] = self.relays.getDeviceState(r)
     return status
 
-  def set_filter(self):
-    pass
-  def get_filter(self):
-    pass
-  
-  def set_fluorescent(self):
-    pass
-  def get_fluorescent(self):
-    pass
+  def set_device(self, id, value):
+    if value:
+      self.relays.turnOnDevice(id)
+    else:
+      self.relays.turnOffDevice(id)
+    return self.get_status()
 
-  def set_airpump(self):
-    pass
-  def get_airpump(self):
-    pass
-  
-  def set_heater(self):
-    pass
-  def get_heater(self):
-    pass
+  def turn_on_device(self, id):
+    self.relays.turnOnDevice(id)
+    return self.get_status()
 
-  def toggle_relay(self, channel):
-    self.relays.toggle(channel)
-    output = "Relay " + channel + " status: " + self.relays.getState(channel)
-    return output
+  def turn_off_device(self, id):
+    self.relays.turnOffDevice(id)
+    return self.get_status()
+
+  def toggle_device(self, id):
+    self.relays.toggleDevice(id)
+    return self.get_status()
 
 
 if __name__ == '__main__':     # Testing code
