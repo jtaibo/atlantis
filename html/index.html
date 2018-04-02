@@ -7,11 +7,13 @@
   <link rel="stylesheet" type="text/css" href="style.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <script src="mimic.js"></script>
+  <script src="jquery-3.3.1.min.js"></script>
+  <script src="jquery.xmlrpc.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
   <script src="atlantis.js"></script>
 </head>
 
-<body onLoad="on_load()">
+<body>
 
 <h1>Welcome to the Atlantis home page!</h1>
 
@@ -45,17 +47,10 @@ DISCONNECTED
 </div>
 
 <div class="relays">
-  <h2>Relays</h2>
-  <ul class="relays">
-    <li><button class="relay" id="button_filter" onclick="toggle_filter()">FILTER</button></li>
-    <li><button class="relay" id="button_fluorescent" onclick="toggle_fluorescent()">FLUORESCENT</button></li>
-    <li><button class="relay" id="button_airpump" onclick="toggle_airpump()">AIR PUMP</button></li>
+  <h2>Devices</h2>
+  <ul id="relays">
+    <!-- Will be filled from JavaScript -->
   </ul>
-</div>
-
-<!-- REMOVE ME! -->
-<div>
-<button id="b_toggle_relay" name="toggle_relay" onclick="toggleRelay(2)">Toggle relay</button> 
 </div>
 
 <p id="console">
@@ -64,31 +59,6 @@ Debug console
 
 <p id="response">
 </p>
-
-<!--
-
-<p id="demo">
-Content of the document......
-</p>
-
-<div>
-<button id="the_button" onclick="myFunction()">Click me</button> 
-</div>
-
-<iframe name="contenedor" src="http://www.udc.es/"
-  style="width:640px;height:400px">
-</iframe>
-
-<form>
-  <input type="color" name="color">
-  <input type="range" id="r" name="r" value="20">
-</form>
-
-<p>
-<a href="http://www.udc.es/" target="contenedor">Link</a>
-</p>
-
--->
 
 <footer>
 <a href="devel.html">Development</a>

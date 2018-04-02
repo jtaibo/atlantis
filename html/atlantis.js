@@ -1,85 +1,104 @@
-var xmlrpc_connection_ok = false;
-var status_string;
-var console;
+var buttons = ["filter", "fluorescent", "airpump", "heater"];
 
-function on_load() {
-  console = document.getElementById("console");
-  query_status();
-}
+$(document).ready(
+  function() {
 
-function update_page_contents() {
+    $("#console").html("on_load");
 
-  button_airpump = document.getElementById("button_airpump");
+    // Button events' functions  
+    for( i=0 ; i < buttons.length ; i++ ) {
 
-  status_obj = JSON.parse(status_string);
+      $("#relays").append("<li><button class=\"relay\" id=\"button_" + buttons[i] + "\">" + buttons[i].toUpperCase() + "</button></li>");
 
-  if ( ! xmlrpc_connection_ok || ! status_obj || status_obj.faultCode ) {
+      var function_body = "toggle_device(\"" + buttons[i] + "\");";
+      $("#button_" + buttons[i]).click( Function(function_body) );
+    }
+
+    query_status();
+  }
+);
+
+
+function update_page_contents(status) {
+
+$("#console").html(" status: " + JSON.stringify(status));
+
+  if ( ! status ) {
     // Connection failure
-    button_airpump.style.backgroundColor = "red"; 
+    for( i=0 ; i < buttons.length ; i++ ) {
+      $("#button_" + buttons[i]).css("background-color", "darkred");
+    }
   }
   else {
-    if ( status_obj.relays[2] )
-      button_airpump.style.backgroundColor = "green";
-    else 
-      button_airpump.style.backgroundColor = "gray";
+    for( i=0 ; i < buttons.length ; i++ ) {
+      if ( status.relays[buttons[i]] ) {
+        $("#button_" + buttons[i]).css("background-color", "green");
+      }
+      else {
+        $("#button_" + buttons[i]).css("background-color", "gray");
+      }
+    }
   }
 }
 
 function query_status() {
 
-  status_string = "";
-
-  var connection = document.getElementById("connection");
-
-  var request = new XmlRpcRequest("http://atlantis:8000/AtlantisRPC", "get_status");
-
   try {
-    var response = request.send();
-    var parsed_response = response.parseXML();
-
-    if ( parsed_response.faultCode ) {
-      connection.innerHTML = "CONNECTION ERROR";
-      connection.style.backgroundColor = "red";
-      console.innerHTML = parsed_response.faultString;
-      xmlrpc_connection_ok = false;
-    }
-    else {
-      connection.innerHTML = "CONNECTED";
-      connection.style.backgroundColor = "green";
-      status_string = JSON.stringify(parsed_response);
-      xmlrpc_connection_ok = true;
-    }
+    $.xmlrpc({
+      url: "http://atlantis:8000/AtlantisRPC",
+      methodName: "get_status",
+//      params: [],
+      success: function(response, status, jqXHR) {
+        connection_ok();
+        update_page_contents(response[0]);
+      },
+      error: function(jqXHR, status, error) {
+        $("#console").html("Error contacting XML-RPC server: " + error);
+        connection_error();
+        update_page_contents();
+      }
+    });
   }
   catch(err) {
-    console.innerHTML = "ERROR contacting XMLRPC server : <br/>" + err.message;
-    connection.innerHTML = "OFFLINE";
-    connection.style.backgroundColor = "red";
-    xmlrpc_connection_ok = false;
+    $("#console").html("ERROR contacting XMLRPC server");
+    connection_error();
+    update_page_contents();
   }
-  update_page_contents();
+}
+
+function connection_ok() {
+  $("#connection").html("CONNECTED");
+  $("#connection").css("background-color", "green");
+}
+
+function connection_error() {
+  $("#connection").html("OFFLINE");
+  $("#connection").css("background-color", "red");
 }
 
 
-function toggleRelay(ch) {
-  // To-Do
-  if ( xmlrpc_connection_ok ) {
-    console.innerHTML= "Sending XMLRPC request";
-    var request = new XmlRpcRequest("http://atlantis:8000/AtlantisRPC", "toggle_relay");
-    request.addParam( ch );
-    var response = request.send();
+function toggle_device(id) {
+
+$("#console").html("toggle_device(" + id + ")");
+
+  try {
+    $.xmlrpc({
+      url: "http://atlantis:8000/AtlantisRPC",
+      methodName: "toggle_device",
+      params: [id],
+      success: function(response, status, jqXHR) {
+        update_page_contents(response[0]);
+      },
+      error: function(jqXHR, status, error) {
+        $("#console").html("Error contacting XML-RPC server: " + error);
+        connection_error();
+        update_page_contents();
+      }
+    });
   }
-  query_status();
-}
-
-
-// Button callbacks
-
-function toggle_filter() {
-}
-
-function toggle_fluorescent() {
-}
-
-function toggle_airpump() {
-  toggleRelay(2);
+  catch(err) {
+    $("#console").html("ERROR contacting XMLRPC server");
+    connection_error();
+    update_page_contents();
+  }
 }
