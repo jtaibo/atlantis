@@ -40,13 +40,19 @@ class RelayModule:
     self.devices[name] = RelayDevice(name, ch, len(self.devices))
 
   def turnOnDevice(self, name):
-    self.on( self.devices[name].channel )
+    if name in self.devices:
+      self.on( self.devices[name].channel )
 
   def turnOffDevice(self, name):
-    self.on( self.devices[name].channel )
+    if name in self.devices:
+      self.off( self.devices[name].channel )
 
   def toggleDevice(self, name):
-    self.toggle( self.devices[name].channel )
+    if name in self.devices:
+      self.toggle( self.devices[name].channel )
 
   def getDeviceState(self, name):
-    return self.getState( self.devices[name].channel )
+    if name in self.devices:
+      return self.getState( self.devices[name].channel )
+    else:
+      return None
