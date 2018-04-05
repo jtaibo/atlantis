@@ -58,7 +58,6 @@ class Stream:
       self.running = False
 
   def isOn(self):
-    print("isOn: ", self.running)
     return self.running
 
 
