@@ -9,13 +9,15 @@ import time
 
 from globalconfig import GlobalConfig
 import relay
+import sensors
 
 
 class XMLRPC_Server(threading.Thread):
 
-  def __init__(self, relays, stream):
+  def __init__(self, relays, stream, sensors):
     self.relays = relays
     self.stream = stream
+    self.sensors = sensors
     threading.Thread.__init__(self)
     self.start()
 
@@ -59,12 +61,7 @@ class XMLRPC_Server(threading.Thread):
   # XMLRPC methods
 
   def get_status(self):
-    status = { "sensors": {
-                  "airtemp": 20.0,
-                  "humidity": 41,
-                  "watertemp": 20.59,
-                  "pH": 7.1
-                 },
+    status = { "sensors": self.sensors.getSensorsJSON(),
                "leds": [
                    {
                     "mode":"static",

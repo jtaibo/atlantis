@@ -40,6 +40,23 @@ button.relay:hover, button.stream:hover {
   list-style-type: none;
 }
 
-#sensors {
-  
+#sensors table {
+  border: 1px solid black;
+  border-collapse: separate;
+  padding: 10px;
+}
+#sensors th {
+  padding: 5px;
+  text-align: right;
+  background-color: lightblue;
+  color: black;
+  width: 100px;
+}
+
+#sensors td {
+  padding: 5px;
+  text-align: left;
+  background-color: silver;
+  color: black;
+  width: 50px;
 }

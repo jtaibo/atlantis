@@ -45,6 +45,10 @@ function update_page_contents(status) {
       $("#button_stream").css("background-color", "gray");
     }
   }
+  $("#air_temperature").html(status.sensors.air_temperature + " ºC");
+  $("#air_humidity").html(status.sensors.air_humidity + " %");
+  $("#water_temperature").html(status.sensors.water_temperature + " ºC");
+  $("#water_ph").html(status.sensors.water_ph);
 }
 
 function query_status() {
