@@ -12,6 +12,7 @@ import menu
 import dht11mt
 import ds18b20
 import leds
+import streaming
 from xmlrpc_server import XMLRPC_Server
 
 
@@ -31,9 +32,12 @@ dpy.printMessage("Relay module with " + str(relays.size()) + " relay(s)")
 for dev in GlobalConfig.relay_devices:
   relays.registerDevice(dev[0], dev[1])
 
-xmlrpc_server = XMLRPC_Server(relays)
+stream = streaming.Stream()
+
+xmlrpc_server = XMLRPC_Server(relays, stream)
 
 rot = rotary.RotaryEncoder()
+
 
 def testRelays():
     for i in range(8):
@@ -50,7 +54,7 @@ def testRelays():
             time.sleep(0.2)
     dpy.printMessage("OK!", 0)
 
-main_menu = menu.Menu(rot, dpy, relays)
+main_menu = menu.Menu(rot, dpy, relays, stream)
 
 def populateDisplay():
     # 1234567890123456

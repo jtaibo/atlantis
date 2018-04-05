@@ -13,8 +13,9 @@ import relay
 
 class XMLRPC_Server(threading.Thread):
 
-  def __init__(self, relays):
+  def __init__(self, relays, stream):
     self.relays = relays
+    self.stream = stream
     threading.Thread.__init__(self)
     self.start()
 
@@ -50,6 +51,9 @@ class XMLRPC_Server(threading.Thread):
     self.server.register_function(self.turn_on_device)
     self.server.register_function(self.turn_off_device)
     self.server.register_function(self.toggle_device)
+    self.server.register_function(self.turn_on_stream)
+    self.server.register_function(self.turn_off_stream)
+    self.server.register_function(self.toggle_stream)
     self.server.serve_forever()
 
   # XMLRPC methods
@@ -69,7 +73,8 @@ class XMLRPC_Server(threading.Thread):
                     "b": 1.0
                    }
                  ],
-               "relays": {}
+               "relays": {},
+               "streaming": self.stream.isOn()
              }
     # Insert relay status
     for r in self.relays.devices:
@@ -94,6 +99,18 @@ class XMLRPC_Server(threading.Thread):
   def toggle_device(self, id):
     self.relays.toggleDevice(id)
     return self.get_status()
+
+  def turn_on_stream(self):
+    self.stream.start()
+
+  def turn_off_stream(self):
+    self.stream.stop()
+
+  def toggle_stream(self):
+    if self.stream.isOn():
+      self.stream.stop()
+    else:
+      self.stream.start()
 
 
 if __name__ == '__main__':     # Testing code

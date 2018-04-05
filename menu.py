@@ -61,29 +61,27 @@ class BacklightMI(MenuItem):
 
 
 class StreamingMI(MenuItem):
-  def __init__(self, name):
+
+  def __init__(self, name, stream):
     MenuItem.__init__(self, name)
-    self.streaming = False
+    self.stream = stream
 
   def getDisplayStringL1(self):
-    if self.streaming:
+    if self.stream.isOn():
       return "enabled"
     else:
       return "disabled"
-  
+
   def click(self):
-    if self.streaming:
-      # to-do
-      pass
+    if self.stream.isOn():
+      self.stream.stop()
     else:
-      os.system("~/stream_camera.sh")
-      self.streaming = True
-      #to-do
+      self.stream.start()
     
 
 class Menu:
 
-    def __init__(self, rot, dpy, relays):
+    def __init__(self, rot, dpy, relays, stream):
 
         self.menuItems = [
                             BacklightMI("Dpy Backlight"),
@@ -91,11 +89,12 @@ class Menu:
                             RelayMI(    "Air pump", relays, "airpump"),
                             RelayMI(    "Fluorescent", relays, "fluorescent"),
                             RelayMI(    "Heater", relays, "heater"),
-                            StreamingMI("Video Streaming")
+                            StreamingMI("Video Streaming", stream)
                             ]
         self.rot = rot
         self.dpy = dpy
         self.relays = relays
+        self.stream = stream
         self.previous_option = self.getCurrentOption()
         self.state = ST_OFF
         self.backlight = False

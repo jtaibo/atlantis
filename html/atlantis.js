@@ -9,6 +9,7 @@ $(document).ready(
       var function_body = "toggle_device(\"" + buttons[i] + "\");";
       $("#button_" + buttons[i]).click( Function(function_body) );
     }
+    $("#button_stream").click( toggle_stream );
     query_status();
     setTimeout(refresh, refresh_period);
   }
@@ -26,6 +27,7 @@ function update_page_contents(status) {
     for( i=0 ; i < buttons.length ; i++ ) {
       $("#button_" + buttons[i]).css("background-color", "darkred");
     }
+    $("#button_stream").css("background-color", "darkred");
   }
   else {
     for( i=0 ; i < buttons.length ; i++ ) {
@@ -35,6 +37,12 @@ function update_page_contents(status) {
       else {
         $("#button_" + buttons[i]).css("background-color", "gray");
       }
+    }
+    if ( status.streaming ) {
+      $("#button_stream").css("background-color", "green");
+    }
+    else {
+      $("#button_stream").css("background-color", "gray");
     }
   }
 }
@@ -79,6 +87,29 @@ function toggle_device(id) {
       url: "http://atlantis:8000/AtlantisRPC",
       methodName: "toggle_device",
       params: [id],
+      success: function(response, status, jqXHR) {
+        update_page_contents(response[0]);
+      },
+      error: function(jqXHR, status, error) {
+        $("#console").html("Error contacting XML-RPC server: " + error);
+        connection_error();
+        update_page_contents();
+      }
+    });
+  }
+  catch(err) {
+    $("#console").html("ERROR contacting XMLRPC server");
+    connection_error();
+    update_page_contents();
+  }
+}
+
+function toggle_stream() {
+  try {
+    $.xmlrpc({
+      url: "http://atlantis:8000/AtlantisRPC",
+      methodName: "toggle_stream",
+      params: [],
       success: function(response, status, jqXHR) {
         update_page_contents(response[0]);
       },

@@ -15,7 +15,7 @@ input.color {
   height: 50px;
 }
 
-button.relay {
+button.relay, button.stream {
   width: 200px;
   background-color: darkgrey;
   color: white;
@@ -32,11 +32,11 @@ button.relay {
   margin-right: 5px;
 }
 
-button.relay:hover {
+button.relay:hover, button.stream:hover {
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
-#relays {
+#relays, #streaming {
   list-style-type: none;
 }
 
