@@ -18,7 +18,7 @@ from xmlrpc_server import XMLRPC_Server
 import time
 
 leds = leds.RGBLEDStrip(GlobalConfig.leds_r, GlobalConfig.leds_g, GlobalConfig.leds_b)
-leds.off()
+leds.configPWM()
 
 sensors = sensors.Sensors()
 
@@ -32,7 +32,7 @@ for dev in GlobalConfig.relay_devices:
 
 stream = streaming.Stream()
 
-xmlrpc_server = XMLRPC_Server(relays, stream, sensors)
+xmlrpc_server = XMLRPC_Server(relays, stream, sensors, leds)
 
 rot = rotary.RotaryEncoder()
 

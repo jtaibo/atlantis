@@ -14,10 +14,11 @@ import sensors
 
 class XMLRPC_Server(threading.Thread):
 
-  def __init__(self, relays, stream, sensors):
+  def __init__(self, relays, stream, sensors, leds):
     self.relays = relays
     self.stream = stream
     self.sensors = sensors
+    self.leds = leds
     threading.Thread.__init__(self)
     self.start()
 
@@ -56,6 +57,7 @@ class XMLRPC_Server(threading.Thread):
     self.server.register_function(self.turn_on_stream)
     self.server.register_function(self.turn_off_stream)
     self.server.register_function(self.toggle_stream)
+    self.server.register_function(self.set_leds_color)
     self.server.serve_forever()
 
   # XMLRPC methods
@@ -108,6 +110,10 @@ class XMLRPC_Server(threading.Thread):
       self.stream.stop()
     else:
       self.stream.start()
+
+  def set_leds_color(self, id, color):
+    print("Setting LEDS color ", color)
+    self.leds.setColor(color)
 
 
 if __name__ == '__main__':     # Testing code

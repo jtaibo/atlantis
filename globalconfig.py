@@ -39,9 +39,9 @@ class GlobalConfig:
   rotary_sw_pin = 16
 
   # LED strips
-  leds_r = 25
-  leds_g = 24
-  leds_b = 23
+  leds_r = 24
+  leds_g = 23
+  leds_b = 25
 
   # Known BT MACs
   bt_macs = [
