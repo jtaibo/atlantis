@@ -61,7 +61,6 @@ class BacklightMI(MenuItem):
 
 
 class StreamingMI(MenuItem):
-
   def __init__(self, name, stream):
     MenuItem.__init__(self, name)
     self.stream = stream
@@ -77,6 +76,27 @@ class StreamingMI(MenuItem):
       self.stream.stop()
     else:
       self.stream.start()
+
+class CommandMI(MenuItem):
+  def __init__(self, name, cmd):
+    MenuItem.__init__(self, name)
+    self.cmd = cmd
+
+  def getDisplayStringL1(self):
+    return ""
+
+  def click(self):
+    os.system(self.cmd)
+
+class ExitMI(MenuItem):
+  def __init__(self, name):
+    MenuItem.__init__(self, name)
+
+  def getDisplayStringL1(self):
+    return ""
+
+  def click(self):
+    exit(0)
     
 
 class Menu:
@@ -89,7 +109,9 @@ class Menu:
                             RelayMI(    "Air pump", relays, "airpump"),
                             RelayMI(    "Fluorescent", relays, "fluorescent"),
                             RelayMI(    "Heater", relays, "heater"),
-                            StreamingMI("Video Streaming", stream)
+                            StreamingMI("Video Streaming", stream),
+                            CommandMI(  "Shutdown", "sudo poweroff"),
+                            ExitMI(     "Exit")
                             ]
         self.rot = rot
         self.dpy = dpy
