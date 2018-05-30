@@ -13,9 +13,13 @@ import sensors
 import leds
 import streaming
 from xmlrpc_server import XMLRPC_Server
-
-
+import signal
+import sys
 import time
+
+print("Starting atlantis service...")
+# Wait some seconds, to wait for the network to be completely configured before trying to start the server
+time.sleep(5)
 
 leds = leds.RGBLEDStrip(GlobalConfig.leds_r, GlobalConfig.leds_g, GlobalConfig.leds_b)
 leds.configPWM()
@@ -43,8 +47,27 @@ def populateDisplay():
     dpy.printMessage(sensors.getDisplay16x2Line1(),0)
     dpy.printMessage(sensors.getDisplay16x2Line2(),1)
 
+def gracefulExit():
+    print("Bye, bye!")
+    dpy.printMessage("                ", 0)
+    dpy.printMessage("                ", 1)
+    dpy.setBacklight(0)
+    xmlrpc_server.stop()
+    xmlrpc_server.join()
+    sensors.stop()
+    # GPIO cleanup (just in case...)
+    GPIO.cleanup()
+
+def sigterm_handler(signal, frame):
+    print("SIGTERM signal received")
+    sys.exit(0) # Will execute the finally: code (hopefully)
+
+signal.signal(signal.SIGTERM, sigterm_handler)
+
 
 try:
+
+    print("Service initialized")
 
     while True:
         time.sleep(0.1)
@@ -55,10 +78,4 @@ except KeyboardInterrupt:
     pass
 
 finally:
-    print("Bye, bye!")
-    dpy.setBacklight(0)
-    xmlrpc_server.stop()
-    xmlrpc_server.join()
-    sensors.stop()
-    # GPIO cleanup (just in case...)
-    GPIO.cleanup()
+    gracefulExit()
