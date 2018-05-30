@@ -1,0 +1,15 @@
+[Unit]
+Description=Atlantis - aquarium monitoring and control system
+Wants=network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=simple
+Restart=always
+User=pi
+WorkingDirectory=/home/pi/atlantis
+ExecStart=/home/pi/atlantis/atlantis.py
+ExecStop=
+
+[Install]
+WantedBy=multi-user.target
