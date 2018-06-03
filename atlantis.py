@@ -18,8 +18,6 @@ import sys
 import time
 
 print("Starting atlantis service...")
-# Wait some seconds, to wait for the network to be completely configured before trying to start the server
-time.sleep(5)
 
 leds = leds.RGBLEDStrip(GlobalConfig.leds_r, GlobalConfig.leds_g, GlobalConfig.leds_b)
 leds.configPWM()
@@ -30,12 +28,13 @@ dpy = display.Display()
 dpy.printMessage("Initializing...", 0)
 
 relays = relay.RelayModule( GlobalConfig.relay_pins )
-dpy.printMessage("Relay module with " + str(relays.size()) + " relay(s)")
 for dev in GlobalConfig.relay_devices:
   relays.registerDevice(dev[0], dev[1])
 
 stream = streaming.Stream()
 
+# Wait some seconds, to wait for the network to be completely configured before trying to start the server
+time.sleep(10)
 xmlrpc_server = XMLRPC_Server(relays, stream, sensors, leds)
 
 rot = rotary.RotaryEncoder()
