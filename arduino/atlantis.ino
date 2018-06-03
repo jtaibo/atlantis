@@ -4,6 +4,7 @@
 
 const int baudrate = 9600;
 const int acs712_analogIn = A0;
+const int pHSensor_analogIn = A1;
 
 
 void setup() {
@@ -41,12 +42,22 @@ void debug_read_DC_values()
 
 void loop() 
 {
-  int milli_amps_ac = ACS712_readAveragedMilliAmpsAC();
+  long vcc = readVcc();
+  Serial.print("Vcc : ");
+  Serial.print( (float)vcc / 1000.0 );
+  Serial.print(" ");
 
+/*
+  int milli_amps_ac = ACS712_readAveragedMilliAmpsAC();
   Serial.print("Watts: ");
   Serial.print( milli_amps_ac * .230 );
   Serial.print(" milliAmps AC : ");
   Serial.println( milli_amps_ac );
+*/
+
+  float pH_value = pHSensor_readAveragedPHValue();
+  Serial.print("pH: ");
+  Serial.println( pH_value );
 
   delay(100);
 }
