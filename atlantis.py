@@ -56,6 +56,7 @@ def gracefulExit():
     xmlrpc_server.stop()
     xmlrpc_server.join()
     sensors.stop()
+    arduino_comm.stop()
     # GPIO cleanup (just in case...)
     GPIO.cleanup()
 
