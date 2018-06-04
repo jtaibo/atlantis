@@ -13,16 +13,16 @@ class GlobalConfig:
   # Display - interface I2C
   # SDA - pin 2
   # SCL - pin 3
-  
+
 #  DHT11_data_pin = 21
   DHT11_data_pin = 12
-  
+
   # Water temperature sensor: 1-Wire interface - pin 4
   water_temp_sensor_id = '28-041701b47aff'
 
 #  relay_pins = [14, 15, 18, 23, 24, 25, 8, 7]
   relay_pins = [17, 27, 22, 5, 6, 13, 19, 26]
-  
+
   relay_devices = [
                     ("filter", 0),
                     ("airpump", 1),
@@ -52,3 +52,6 @@ class GlobalConfig:
   xmlrpc_host = "atlantis"
 #  xmlrpc_host = "localhost"
   xmlrpc_port = 8000
+
+  arduino_serial_port = "/dev/ttyUSB0"
+  arduino_baud_rate = 9600

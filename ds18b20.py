@@ -70,6 +70,7 @@ if __name__ == '__main__':     # Testing code
     while True:
       print(temp_sensor.getTemp())	
       time.sleep(0.1)
+
   except:
     temp_sensor.stop()
     temp_sensor.join()

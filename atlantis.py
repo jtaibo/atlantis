@@ -12,20 +12,22 @@ import menu
 import sensors
 import leds
 import streaming
+import arduinocomm
 from xmlrpc_server import XMLRPC_Server
 import signal
 import sys
 import time
 
 print("Starting atlantis service...")
+dpy = display.Display()
+dpy.printMessage("Initializing...", 0)
+
+arduino_comm = arduinocomm.ArduinoComm()
 
 leds = leds.RGBLEDStrip(GlobalConfig.leds_r, GlobalConfig.leds_g, GlobalConfig.leds_b)
 leds.configPWM()
 
-sensors = sensors.Sensors()
-
-dpy = display.Display()
-dpy.printMessage("Initializing...", 0)
+sensors = sensors.Sensors(arduino_comm)
 
 relays = relay.RelayModule( GlobalConfig.relay_pins )
 for dev in GlobalConfig.relay_devices:

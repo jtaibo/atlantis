@@ -4,14 +4,16 @@
 from globalconfig import GlobalConfig
 import dht11mt
 import ds18b20
+import arduinocomm
 import time
 
 
 class Sensors:
 
-  def __init__(self):
+  def __init__(self, arduino_comm):
     self.dht11 = dht11mt.DHT11_MT( GlobalConfig.DHT11_data_pin )
     self.water_temp = ds18b20.DS18b20( GlobalConfig.water_temp_sensor_id )
+    self.arduino_comm = arduino_comm
 
   def stop(self):
     self.water_temp.stop()
@@ -29,8 +31,7 @@ class Sensors:
     return self.water_temp.getTemp()
 
   def getWaterPH(self):
-    # TO-DO implement me!
-    return 7.1
+    return self.arduino_comm.getPH()
 
   # TO-DO:
   #  - Light sensor

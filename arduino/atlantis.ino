@@ -42,11 +42,12 @@ void debug_read_DC_values()
 
 void loop() 
 {
+/*
   long vcc = readVcc();
   Serial.print("Vcc : ");
   Serial.print( (float)vcc / 1000.0 );
   Serial.print(" ");
-
+*/
 /*
   int milli_amps_ac = ACS712_readAveragedMilliAmpsAC();
   Serial.print("Watts: ");
@@ -56,7 +57,7 @@ void loop()
 */
 
   float pH_value = pHSensor_readAveragedPHValue();
-  Serial.print("pH: ");
+  Serial.print("pH ");
   Serial.println( pH_value );
 
   delay(100);
