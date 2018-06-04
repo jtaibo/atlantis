@@ -17,6 +17,8 @@ class GlobalConfig:
 #  DHT11_data_pin = 21
   DHT11_data_pin = 12
 
+  pir_pin = 18
+
   # Water temperature sensor: 1-Wire interface - pin 4
   water_temp_sensor_id = '28-041701b47aff'
 
