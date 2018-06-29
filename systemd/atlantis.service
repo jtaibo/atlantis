@@ -8,7 +8,7 @@ Type=simple
 Restart=always
 User=pi
 WorkingDirectory=/home/pi/atlantis
-ExecStart=/home/pi/atlantis/atlantis.py
+ExecStart=/home/pi/atlantis/atlantis.sh
 ExecStop=
 
 [Install]
