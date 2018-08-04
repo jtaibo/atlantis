@@ -17,6 +17,7 @@ from xmlrpc_server import XMLRPC_Server
 import signal
 import sys
 import time
+import logger
 
 print("Starting atlantis service...")
 dpy = display.Display()
@@ -43,6 +44,7 @@ rot = rotary.RotaryEncoder()
 
 main_menu = menu.Menu(rot, dpy, relays, stream)
 
+log_mgr = logger.Logger(sensors)
 
 def populateDisplay():  
     dpy.printMessage(sensors.getDisplay16x2Line1(),0)
@@ -55,6 +57,7 @@ def gracefulExit():
     dpy.setBacklight(0)
     xmlrpc_server.stop()
     xmlrpc_server.join()
+    log_mgr.stop()
     sensors.stop()
     arduino_comm.stop()
     # GPIO cleanup (just in case...)
