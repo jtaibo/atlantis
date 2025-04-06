@@ -11,6 +11,7 @@ class Logger(threading.Thread):
 
   def __init__(self, sensors):
     threading.Thread.__init__(self)
+    self.name = "Logger"
     self.sensors = sensors
     self.log_sensor_check_time = 1  # check every second
     self.log_sensor_cycle_time = 60 # write every minute

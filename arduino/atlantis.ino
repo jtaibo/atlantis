@@ -59,6 +59,4 @@ void loop()
   float pH_value = pHSensor_readAveragedPHValue();
   Serial.print("pH ");
   Serial.println( pH_value );
-
-  delay(100);
 }
