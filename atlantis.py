@@ -13,7 +13,7 @@ import sensors
 import leds
 import streaming
 import arduinocomm
-from xmlrpc_server import XMLRPC_Server
+#from xmlrpc_server import XMLRPC_Server
 import signal
 import sys
 import time
@@ -44,7 +44,7 @@ stream = streaming.Stream()
 
 # Wait some seconds, to wait for the network to be completely configured before trying to start the server
 #time.sleep(10)
-xmlrpc_server = XMLRPC_Server(relays, stream, sensors, leds)
+#xmlrpc_server = XMLRPC_Server(relays, stream, sensors, leds)
 
 dpy.printMessage("Rotary encoder", 1)
 rot = rotary.RotaryEncoder()
@@ -68,8 +68,8 @@ def gracefulExit():
     dpy.printMessage(" ---SHUTDOWN--- ", 0)
     dpy.printMessage("                ", 1)
     dpy.setBacklight(0)
-    xmlrpc_server.stop()
-    xmlrpc_server.join()
+#    xmlrpc_server.stop()
+#    xmlrpc_server.join()
     log_mgr.stop()
     sensors.stop()
     arduino_comm.stop()
