@@ -6,9 +6,9 @@ After=network.target network-online.target
 [Service]
 Type=simple
 Restart=always
-User=pi
-WorkingDirectory=/home/pi/atlantis
-ExecStart=/home/pi/atlantis/atlantis.sh
+User=atlantis
+WorkingDirectory=/home/atlantis/devel/atlantis
+ExecStart=/home/atlantis/devel/atlantis/atlantis.sh
 ExecStop=
 
 [Install]
